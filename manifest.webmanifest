@@ -1,0 +1,54 @@
+{
+  "id": "/",
+  "name": "Disaster Zone: Siaga Bencana",
+  "short_name": "Disaster Zone",
+  "description": "Game edukasi interaktif untuk meningkatkan kesiapsiagaan anak SD dalam menghadapi bencana gempa, erupsi, tsunami, dan banjir.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#f7f3ea",
+  "theme_color": "#003060",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    { "src": "/icon-48.png",  "sizes": "48x48",   "type": "image/png" },
+    { "src": "/icon-72.png",  "sizes": "72x72",   "type": "image/png" },
+    { "src": "/icon-96.png",  "sizes": "96x96",   "type": "image/png" },
+    { "src": "/icon-144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/icon-384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Main Game",
+      "short_name": "Main",
+      "description": "Mulai bermain game",
+      "url": "/",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Login Guru",
+      "short_name": "Guru",
+      "description": "Login untuk guru",
+      "url": "/teacher-login.html",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Halaman utama Disaster Zone"
+    }
+  ],
+  "prefer_related_applications": false
+}

@@ -1,0 +1,94 @@
+{
+  "npc": [
+    {
+      "id": "bu-sinta",
+      "name": "Bu Sinta",
+      "x": 320,
+      "y": 96,
+      "color": "#e8b830",
+      "role": "Guru Kelas",
+      "dialog": {
+        "start": {
+          "text": "Selamat pagi anak-anak! Hari ini kita belajar tentang gempa bumi.",
+          "choices": [
+            { "text": "Baik Bu!", "next": "good-student" },
+            { "text": "Apa itu gempa?", "next": "explain" },
+            { "text": "Saya sudah tahu", "next": "challenge" }
+          ]
+        },
+        "good-student": {
+          "text": "Bagus! Kalau ada gempa, apa yang harus kamu lakukan?",
+          "choices": [
+            { "text": "Drop, Cover, Hold On!", "next": "correct" },
+            { "text": "Lari keluar kelas", "next": "wrong" },
+            { "text": "Diam saja", "next": "wrong" }
+          ]
+        },
+        "explain": {
+          "text": "Gempa bumi adalah getaran yang terjadi karena pergerakan lempeng bumi. Kalau ada gempa, kita harus DROP-COVER-HOLD ON. Tahu caranya?",
+          "choices": [
+            { "text": "Tahu Bu!", "next": "good-student" },
+            { "text": "Belum tahu", "next": "teach" }
+          ]
+        },
+        "challenge": {
+          "text": "Oh ya? Coba jelaskan apa itu DROP-COVER-HOLD ON?",
+          "choices": [
+            { "text": "Drop = jatuhkan diri, Cover = lindungi kepala, Hold On = pegang meja", "next": "correct" },
+            { "text": "Tidak tahu", "next": "teach" }
+          ]
+        },
+        "teach": {
+          "text": "DROP: jatuhkan diri ke lantai. COVER: lindungi kepala di bawah meja. HOLD ON: pegang kaki meja sampai guncangan berhenti. Ulangi ya!",
+          "choices": [
+            { "text": "Baik Bu!", "next": "end" },
+            { "text": "Terima kasih Bu", "next": "end" }
+          ]
+        },
+        "correct": {
+          "text": "Tepat sekali! Kamu sudah siap menghadapi gempa. Tetap tenang dan ingat prosedur ini ya!",
+          "choices": [
+            { "text": "Siap Bu!", "next": "end" }
+          ]
+        },
+        "wrong": {
+          "text": "Hmm, kurang tepat. Lari saat gempa berbahaya karena bisa tertimpa plafon atau kaca. Yang benar: DROP-COVER-HOLD ON!",
+          "choices": [
+            { "text": "Maaf Bu, saya ingat", "next": "teach" }
+          ]
+        },
+        "end": {
+          "text": "Bagus! Sekarang siapkan diri kalian. Sebentar lagi kita akan simulasi gempa!",
+          "choices": []
+        }
+      }
+    },
+    {
+      "id": "pak-budi",
+      "name": "Pak Budi",
+      "x": 128,
+      "y": 224,
+      "color": "#3b82f6",
+      "role": "Petugas BPBD",
+      "dialog": {
+        "start": {
+          "text": "Halo! Saya Pak Budi dari BPBD. Saya siap membantu kalian belajar kebencanaan.",
+          "choices": [
+            { "text": "Apa tugas BPBD?", "next": "explain" },
+            { "text": "Terima kasih Pak", "next": "end" }
+          ]
+        },
+        "explain": {
+          "text": "BPBD bertugas menanggulangi bencana. Kami juga mengedukasi masyarakat tentang kesiapsiagaan.",
+          "choices": [
+            { "text": "Keren Pak!", "next": "end" }
+          ]
+        },
+        "end": {
+          "text": "Tetap semangat belajar ya! Ingat, kesiapsiagaan menyelamatkan nyawa.",
+          "choices": []
+        }
+      }
+    }
+  ]
+}

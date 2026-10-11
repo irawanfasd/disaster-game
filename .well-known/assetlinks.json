@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "xyz.lmsmoodletest.disaster.twa",
+        "sha256_cert_fingerprints": ["CB:84:54:A6:5B:AF:8D:0D:98:90:CA:F8:0A:5D:49:5A:82:64:F5:8A:91:44:CE:A3:77:9D:76:D3:2C:D2:B4:18"]
+      }
+    }]

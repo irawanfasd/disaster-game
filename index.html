@@ -1,0 +1,68 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disaster Zone: Siaga Bencana</title><meta name="theme-color" content="#003060"><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon-192.png">
+<link rel="stylesheet" href="/style.css?v=10">
+<link rel="stylesheet" href="/animations.css"><script src="/theme.js?v=6"></script></head><body>
+<nav><b>DISASTER ZONE</b><span><button onclick="show('home')">Peta</button><button onclick="wardrobe()">👕 Baju</button><button onclick="rank()">🏆 Ranking</button><a href="/teacher">Guru</a><button id="mu" onclick="toggleMute()">🔊</button><button id="bg" onclick="toggleBgm()">🎵</button><button id="th" onclick="toggleTheme()">🌙</button></span></nav>
+<main>
+<section id="home">
+ <div class="hero">
+  <small>LIDM · INOVASI PEMBELAJARAN DIGITAL</small>
+  <h1>DISASTER ZONE: SIAGA BENCANA</h1>
+  <p>Game edukasi interaktif untuk meningkatkan kesiapsiagaan anak SD dalam menghadapi bencana.</p>
+  <div class="hero-actions">
+    <button class="btn pulse" onclick="document.getElementById('join').scrollIntoView({behavior:'smooth'})">
+      🎮 Main Sekarang
+    </button>
+  </div>
+</div>
+ <form id="join" class="card"><h2>Masuk ke Kelas</h2>
+  <input id="nm" placeholder="Nama kamu" maxlength="20" required> <input id="cd" placeholder="Kode kelas (opsional)" maxlength="7"> <button class="btn" id="btn-start" data-loading="Memuat...">Mulai Petualangan</button>
+  <p id="jmsg"><small>Tanpa kode kelas, kamu main sendiri dan skor tidak masuk dashboard guru.</small></p></form>
+
+
+
+ <small>4 SKENARIO BENCANA NYATA</small><h2>PETUALANGANMU</h2><div id="levels" class="grid"></div>
+
+<section id="download-app" class="card download-section">
+  <div class="download-icon">📱</div>
+  <div class="download-content">
+    <h2>Unduh Aplikasi Android</h2>
+    <p>Mainkan Disaster Zone di HP kamu — tanpa buka browser. Install sekali, main kapan saja!</p>
+    <div class="download-features">
+      <span class="badge">✅ Gratis</span>
+      <span class="badge">✅ Offline</span>
+      <span class="badge">✅ Ringan</span>
+      <span class="badge">✅ Tanpa Iklan</span>
+    </div>
+    <div class="download-actions">
+      <a class="btn pulse" href="/disaster-zone.apk" download>
+        ⬇️ Unduh APK (6 MB)
+      </a>
+      <a class="btn alt" href="/qr-apk.png" target="_blank">
+        📷 Scan QR Code
+      </a>
+    </div>
+    <p class="download-note">
+      <small>💡 Untuk iOS, buka di Safari → Share → <b>Add to Home Screen</b></small>
+    </p>
+  </div>
+</section>
+</section>
+<section id="play" hidden><canvas id="cv" class="cv" width="320" height="120"></canvas><div id="pc"></div></section>
+<section id="wardrobe" hidden></section>
+<section id="rank" hidden></section>
+</main><script src="/sprites.js"></script><script src="/fx.js?v=15"></script><script src="/app.js?v=15"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function(reg) {
+        console.log('[PWA] Service Worker registered:', reg.scope);
+      })
+      .catch(function(err) {
+        console.warn('[PWA] SW register failed:', err.message);
+      });
+  });
+}
+</script>
+</body></html>

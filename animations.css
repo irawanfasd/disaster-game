@@ -1,0 +1,771 @@
+/* ==========================================================
+   DISASTER ZONE — ANIMATIONS.CSS
+   Animasi profesional untuk seluruh UI
+   Kompatibel dengan dark mode & responsif
+   ========================================================== */
+
+/* ---------- VARIABEL ANIMASI ---------- */
+:root {
+  --anim-fast: 0.15s;
+  --anim-normal: 0.25s;
+  --anim-slow: 0.4s;
+  --anim-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --anim-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --anim-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ==========================================================
+   1. FADE IN PAGE
+   ========================================================== */
+@keyframes dzFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  animation: dzFadeIn var(--anim-slow) var(--anim-ease-out) both;
+}
+
+main > section {
+  animation: dzFadeIn var(--anim-slow) var(--anim-ease-out) both;
+}
+
+/* Staggered: card muncul bergantian */
+main .card {
+  animation: dzFadeIn 0.5s var(--anim-ease-out) both;
+}
+main .card:nth-child(1) { animation-delay: 0.05s; }
+main .card:nth-child(2) { animation-delay: 0.10s; }
+main .card:nth-child(3) { animation-delay: 0.15s; }
+main .card:nth-child(4) { animation-delay: 0.20s; }
+main .card:nth-child(5) { animation-delay: 0.25s; }
+
+/* ==========================================================
+   2. BUTTON HOVER LIFT + PRESS
+   ========================================================== */
+.btn,
+.opt,
+nav button {
+  transition:
+    transform var(--anim-fast) var(--anim-ease),
+    box-shadow var(--anim-fast) var(--anim-ease),
+    background var(--anim-fast) ease,
+    color var(--anim-fast) ease;
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* Hover lift */
+.btn:hover,
+nav button:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 var(--d), 0 8px 20px rgba(0, 26, 58, 0.25);
+}
+
+.opt:hover {
+  transform: translateX(4px);
+  box-shadow: -3px 0 0 var(--t), 3px 3px 0 var(--d);
+}
+
+/* Press */
+.btn:active,
+.opt:active,
+nav button:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 1px 1px 0 var(--d), inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition-duration: 0.05s;
+}
+
+/* Tombol disabled — tidak bergerak */
+.btn:disabled,
+button[disabled] {
+  transform: none !important;
+  box-shadow: 3px 3px 0 var(--d) !important;
+  cursor: not-allowed !important;
+}
+
+/* ==========================================================
+   3. RIPPLE EFFECT
+   ========================================================== */
+.ripple-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(0);
+  animation: dzRipple 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes dzRipple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Ripple versi gelap untuk tombol putih */
+.btn.alt .ripple,
+.opt .ripple {
+  background: rgba(0, 169, 157, 0.35);
+}
+
+/* ==========================================================
+   4. GRADIENT SHIMMER
+   ========================================================== */
+@keyframes dzShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.btn.shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--g) 0%,
+    var(--g) 35%,
+    #5fd88a 50%,
+    var(--g) 65%,
+    var(--g) 100%
+  );
+  background-size: 200% auto;
+  animation: dzShimmer 3s linear infinite;
+}
+
+.btn.shimmer:hover {
+  animation-duration: 1s;
+}
+
+/* ==========================================================
+   5. PULSE GLOW (untuk CTA)
+   ========================================================== */
+@keyframes dzPulseGlow {
+  0%, 100% {
+    box-shadow: 3px 3px 0 var(--d), 0 0 0 0 rgba(47, 179, 90, 0.6);
+  }
+  50% {
+    box-shadow: 3px 3px 0 var(--d), 0 0 0 12px rgba(47, 179, 90, 0);
+  }
+}
+
+.btn.pulse {
+  animation: dzPulseGlow 2s var(--anim-ease-out) infinite;
+}
+
+/* Pulse pada Level Card */
+@keyframes dzCardPulse {
+  0%, 100% { box-shadow: 4px 4px 0 var(--d); }
+  50% { box-shadow: 4px 4px 0 var(--d), 0 0 20px rgba(0, 169, 157, 0.4); }
+}
+
+.card.lv:hover {
+  animation: dzCardPulse 1.5s ease-in-out infinite;
+}
+
+/* ==========================================================
+   6. ICON BOUNCE
+   ========================================================== */
+@keyframes dzIconBounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-3px) rotate(-6deg); }
+  50% { transform: translateY(0) rotate(0); }
+  75% { transform: translateY(-2px) rotate(6deg); }
+}
+
+.btn:hover .icon-bounce,
+nav button:hover .icon-bounce,
+.icon-bounce:hover {
+  display: inline-block;
+  animation: dzIconBounce 0.6s var(--anim-ease);
+}
+
+/* Emoji di nav selalu bisa bounce saat hover */
+nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================
+   7. LOADING SPINNER
+   ========================================================== */
+@keyframes dzSpin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: dzSpin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.btn.loading {
+  pointer-events: none;
+  opacity: 0.85;
+  background: var(--g);
+}
+
+/* Spinner hitam untuk tombol putih */
+.btn.alt .spinner,
+.opt .spinner {
+  border-color: rgba(0, 26, 58, 0.2);
+  border-top-color: var(--d);
+}
+
+/* ==========================================================
+   8. CARD HOVER (untuk card biasa)
+   ========================================================== */
+.card:not(.lv):not(.cos) {
+  transition:
+    transform var(--anim-normal) var(--anim-ease),
+    box-shadow var(--anim-normal) var(--anim-ease);
+}
+
+.card:not(.lv):not(.cos):hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0 var(--d), 0 12px 28px rgba(0, 26, 58, 0.15);
+}
+
+/* Level card & costume card — lebih dramatis */
+.card.lv,
+.card.cos {
+  transition:
+    transform var(--anim-normal) var(--anim-bounce),
+    box-shadow var(--anim-normal) var(--anim-ease);
+}
+
+.card.lv:hover,
+.card.cos:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 7px 7px 0 var(--d), 0 16px 32px rgba(0, 26, 58, 0.2);
+}
+
+/* Icon di dalam card */
+.card.lv:hover .big,
+.card.cos:hover .big {
+  animation: dzIconBounce 0.7s var(--anim-ease);
+}
+
+/* ==========================================================
+   9. NAV UNDERLINE SLIDE
+   ========================================================== */
+nav button {
+  position: relative;
+  padding: 6px 8px;
+}
+
+nav button::before {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--t);
+  transition:
+    width var(--anim-normal) var(--anim-ease-out),
+    left var(--anim-normal) var(--anim-ease-out);
+}
+
+nav button:hover::before {
+  width: 80%;
+  left: 10%;
+}
+
+/* Nav link (bukan button) */
+nav a {
+  position: relative;
+  padding: 6px 8px;
+  text-decoration: none;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--t);
+  transition: width var(--anim-normal) var(--anim-ease-out), left var(--anim-normal) var(--anim-ease-out);
+}
+
+nav a:hover::after {
+  width: 80%;
+  left: 10%;
+}
+
+/* ==========================================================
+   10. HERO TEXT ANIMATION (bonus)
+   ========================================================== */
+@keyframes dzHeroSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero small {
+  display: inline-block;
+  animation: dzHeroSlide 0.6s var(--anim-ease-out) 0.1s both;
+}
+
+.hero h1 {
+  animation: dzHeroSlide 0.6s var(--anim-ease-out) 0.2s both;
+}
+
+.hero p {
+  animation: dzHeroSlide 0.6s var(--anim-ease-out) 0.3s both;
+}
+
+/* ==========================================================
+   11. INPUT FOCUS EFFECT
+   ========================================================== */
+input,
+select {
+  transition:
+    border-color var(--anim-fast) ease,
+    box-shadow var(--anim-fast) ease,
+    transform var(--anim-fast) ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--t);
+  box-shadow: 0 0 0 4px rgba(0, 169, 157, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================
+   12. SUCCESS / ERROR FEEDBACK
+   ========================================================== */
+@keyframes dzShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: dzShake 0.4s ease;
+}
+
+@keyframes dzPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pop {
+  animation: dzPop 0.4s var(--anim-bounce);
+}
+
+/* ==========================================================
+   13. TOAST NOTIFICATION
+   ========================================================== */
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+@keyframes dzToastIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes dzToastOut {
+  to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+}
+
+.toast {
+  background: #fff;
+  border: 3px solid var(--d);
+  box-shadow: 4px 4px 0 var(--d);
+  padding: 12px 18px;
+  min-width: 240px;
+  max-width: 320px;
+  font-family: Pixel, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  pointer-events: auto;
+  animation: dzToastIn 0.4s var(--anim-bounce) both;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast.out {
+  animation: dzToastOut 0.3s ease both;
+}
+
+.toast.success { border-left: 8px solid var(--g); }
+.toast.error   { border-left: 8px solid var(--r); }
+.toast.info    { border-left: 8px solid var(--t); }
+.toast.warning { border-left: 8px solid var(--y); }
+
+/* Toast mobile — full width dari atas */
+@media (max-width: 600px) {
+  .toast-container {
+    top: 60px;
+    right: 10px;
+    left: 10px;
+  }
+  .toast { max-width: 100%; min-width: 0; }
+}
+
+/* ==========================================================
+   14. PROGRESS BAR ANIMATION
+   ========================================================== */
+.bar i,
+.track i {
+  transition: width 0.5s var(--anim-ease-out), background 0.3s ease;
+}
+
+/* ==========================================================
+   15. SECTION TRANSITION (show/hide)
+   ========================================================== */
+section:not([hidden]) {
+  animation: dzFadeIn 0.35s var(--anim-ease-out) both;
+}
+
+/* ==========================================================
+   16. DARK MODE — override
+   ========================================================== */
+[data-theme="dark"] .toast {
+  background: #15264a;
+  color: #e6edf8;
+}
+
+[data-theme="dark"] .btn.shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--g) 0%,
+    var(--g) 35%,
+    #5fd88a 50%,
+    var(--g) 65%,
+    var(--g) 100%
+  );
+  background-size: 200% auto;
+}
+
+[data-theme="dark"] .ripple {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ==========================================================
+   17. REDUCED MOTION (aksesibilitas)
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================
+   18. PRINT — matikan animasi
+   ========================================================== */
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================
+   DOWNLOAD APK SECTION
+   ========================================================== */
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.hero-actions .btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.download-section {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  background: linear-gradient(135deg, #fff 0%, #f7f3ea 100%);
+  border: 4px solid var(--d);
+  box-shadow: 6px 6px 0 var(--d);
+  padding: 24px 28px;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 169, 157, 0.08) 0%, transparent 70%);
+  animation: dzRotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes dzRotate {
+  to { transform: rotate(360deg); }
+}
+
+.download-icon {
+  font-size: 80px;
+  flex-shrink: 0;
+  animation: dzFloat 3s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes dzFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.download-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.download-content h2 {
+  margin: 0 0 8px 0;
+  color: var(--n);
+  font-size: 16px;
+}
+
+.download-content p {
+  margin: 0 0 12px 0;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.download-features {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #e9f7ee;
+  color: #1a5c2e;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: Pixel, monospace;
+}
+
+.download-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.download-actions .btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.download-note {
+  margin: 0;
+  color: #8696a0;
+}
+
+.download-note small {
+  color: #8696a0;
+}
+
+/* Dark mode */
+[data-theme="dark"] .download-section {
+  background: linear-gradient(135deg, #15264a 0%, #0e1a30 100%);
+}
+
+[data-theme="dark"] .download-content h2 {
+  color: #e6edf8;
+}
+
+[data-theme="dark"] .download-content p {
+  color: #8696a0;
+}
+
+[data-theme="dark"] .badge {
+  background: #12372a;
+  color: #4ade80;
+}
+
+[data-theme="dark"] .download-note small {
+  color: #8696a0;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .download-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+  .download-icon {
+    font-size: 60px;
+  }
+  .download-features,
+  .download-actions,
+  .hero-actions {
+    justify-content: center;
+  }
+  .download-actions .btn,
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* ==========================================================
+   DOWNLOAD COMPACT
+   ========================================================== */
+.download-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px !important;
+  margin: 20px 0 !important;
+  flex-wrap: wrap;
+  border-width: 3px !important;
+  box-shadow: 4px 4px 0 var(--d) !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.download-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 var(--d) !important;
+}
+
+.download-compact-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.download-compact-info b {
+  font-family: Pixel, monospace;
+  font-size: 12px;
+  color: var(--n);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.download-compact-info small {
+  display: block;
+  color: #8696a0;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.download-compact-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.download-compact-actions .btn {
+  text-decoration: none;
+  padding: 8px 14px !important;
+  font-size: 11px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Dark mode */
+[data-theme="dark"] .download-compact-info b {
+  color: #e6edf8;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .download-compact {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px !important;
+  }
+  .download-compact-info {
+    min-width: 0;
+  }
+  .download-compact-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  .download-compact-actions .btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+}

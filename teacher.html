@@ -1,0 +1,51 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard Guru — Disaster Zone</title><link rel="stylesheet" href="/style.css?v=10">
+<link rel="stylesheet" href="/animations.css"><script src="/theme.js?v=10"></script></head><body>
+<nav><b>DASHBOARD GURU</b><span><a href="/">← Ke Game</a> <button id="th" onclick="toggleTheme()">🌙</button></span></nav>
+<main>
+<div class="card noprint"><small>KELAS SAYA</small> <select id="ses" onchange="cur=this.value;sv();connect()"></select>
+ <button class="btn" onclick="newS()">+ Kelas Baru</button> <button class="btn alt" onclick="drop()">Hapus dari Daftar</button>
+ <button class="btn alt" onclick="csv()">⬇ CSV</button> <button class="btn alt" onclick="print()">🖨 PDF / Cetak</button></div>
+<div class="grid">
+ <div class="card"><small>KODE KELAS</small><div class="code" id="code">DQ-XXXX</div><p class="noprint"><button class="btn" onclick="cp()">Salin Kode</button></p><p id="cnt"><small>0 siswa terhubung</small></p></div>
+ <div class="card" style="grid-column:span 2"><small>REAL-TIME</small><h2>Tabel Skor Siswa</h2>
+  <table><thead><tr><th>No</th><th>Nama</th><th>Level</th><th>Skor</th><th>Benar</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table></div>
+</div>
+<div class="card"><small>ANALITIK KELAS</small><h2>Jawaban per Keputusan</h2><select id="lv" onchange="chart()" class="noprint"></select><div id="an"></div></div>
+<div class="card"><small>PANDUAN DISKUSI GURU</small><h2>Bahan Diskusi Kelas</h2><div id="disc" class="fact"></div></div>
+</main>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let SS=[];try{SS=JSON.parse(localStorage.dq_ts||'[]')}catch{}
+if(localStorage.dq_tc&&!SS.find(s=>s.code===localStorage.dq_tc))SS.push({code:localStorage.dq_tc,key:localStorage.dq_tk,label:'Kelas 1'});
+let cur=localStorage.dq_cur||(SS[0]&&SS[0].code)||'',es,D,V=null;
+function sv(){localStorage.dq_ts=JSON.stringify(SS);localStorage.dq_cur=cur}
+async function newS(){const label=prompt('Nama kelas (mis. 5A):','')||'Kelas';const r=await fetch('/api/session',{method:'POST'}).then(r=>r.json());if(!r.code)return alert(r.error||'Gagal');SS.push({code:r.code,key:r.key,label});cur=r.code;sv();sel()}
+function drop(){if(!confirm('Hapus kelas ini dari daftar? Data di server tetap tersimpan 7 hari.'))return;SS=SS.filter(s=>s.code!==cur);cur=SS[0]?SS[0].code:'';sv();sel()}
+function sel(){$('#ses').innerHTML=SS.map(s=>`<option value="${s.code}" ${s.code==cur?'selected':''}>${esc(s.label)} · ${s.code}</option>`).join('');connect()}
+function cp(){navigator.clipboard&&navigator.clipboard.writeText(cur)}
+function connect(){es&&es.close();V=null;const s=SS.find(x=>x.code===cur);
+ if(!s){$('#code').textContent='DQ-XXXX';$('#tb').innerHTML='';$('#cnt').textContent='Belum ada kelas';return}
+ $('#code').textContent=s.code;es=new EventSource('/api/stream/'+s.code+'?key='+s.key);es.onmessage=e=>{V=JSON.parse(e.data);render()}}
+function render(){$('#cnt').textContent=V.n+' siswa terhubung';
+ $('#tb').innerHTML=V.students.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.name)}</td><td>${s.level?'L'+s.level:'-'}</td><td>${s.score}</td><td>${s.lc}/${s.lt}</td><td><span class="pill ${s.done?'':'m'}">${s.done?'SELESAI':'SEDANG BERMAIN'}</span></td></tr>`).join('')||'<tr><td colspan="6">Belum ada siswa.</td></tr>';chart()}
+function chart(){if(!D)return;const lv=+$('#lv').value,Lv=D.levels[lv-1],st=((V||{}).stats||{})[lv]||{};let worst=-1,wr=0;
+ $('#an').innerHTML=Lv.decisions.map((d,i)=>{const c=st[i]||[0,0,0,0],t=c[0]+c[1]+c[2],w=t?1-c[d.ok]/t:0;if(t&&w>wr){wr=w;worst=i}
+  return`<h4>Keputusan ${i+1} — ${esc(d.q)}</h4>`+d.opts.map((o,k)=>{const p=t?Math.round(c[k]/t*100):0;return`<div class="row"><span>${'ABC'[k]}. ${esc(o)}</span><b>${p}%</b></div><div class="track"><i style="width:${p}%;background:${k==d.ok?'var(--g)':'var(--r)'}"></i></div>`}).join('')}).join('');
+ $('#disc').innerHTML=worst<0?'Belum ada data jawaban salah.':`<b>Paling banyak salah: Keputusan ${worst+1}.</b> Jelaskan prosedur yang benar: ${esc(Lv.decisions[worst].fact)}`}
+function csv(){if(!V)return;const s=SS.find(x=>x.code===cur),q=a=>{a=String(a);if(/^[=+\-@]/.test(a))a="'"+a;return'"'+a.replace(/"/g,'""')+'"'};
+ const o=[['No','Nama','Level','Skor','Benar','Total','Status'].map(q).join(',')];
+ V.students.forEach((t,i)=>o.push([i+1,t.name,t.level,t.score,t.lc,t.lt,t.done?'Selesai':'Bermain'].map(q).join(',')));
+ o.push('','Level,Keputusan,Pilihan A,Pilihan B,Pilihan C');for(const l in V.stats)for(const d in V.stats[l])o.push([l,+d+1,...V.stats[l][d].slice(0,3)].join(','));
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+o.join('\n')],{type:'text/csv'}));a.download='hasil-'+(s?s.label:'kelas')+'-'+cur+'.csv';a.click()}
+fetch('data/scenarios.json').then(r=>r.json()).then(d=>{D=d;$('#lv').innerHTML=d.levels.map(l=>`<option value="${l.id}">Level ${l.id} — ${l.title}</option>`).join('');chart()});
+sel();sv();
+</script><script src="/ui.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+  });
+}
+</script>
+</body></html>
